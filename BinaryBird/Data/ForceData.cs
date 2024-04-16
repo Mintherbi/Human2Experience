@@ -7,14 +7,12 @@ namespace BinaryBird.Data
         public Point3d Target { get; set; }
         public double Force { get; set; }
         public int Threshold { get; set; }
-        public bool LinearRepel { get; set; }
         private double MaxForce;
-        public AttractForceData(Point3d Target, double Force, int Threshold, bool LinearRepel)
+        public AttractForceData(Point3d Target, double Force, int Threshold)
         {
             this. Target = Target;
             this. Force = Force;
             this. Threshold = Threshold;
-            this. LinearRepel = LinearRepel;
             this. MaxForce = Force / (Threshold * Threshold);
         }
     }
@@ -24,15 +22,13 @@ namespace BinaryBird.Data
         public Point3d Target { get; set; }
         public double Force { get; set; }
         public int Threshold { get; set; }
-        public bool LinearRepel { get; set; }
         private double MaxForce;
-        public RepelForceData(Point3d Target, double Force, int Threshold, bool LinearRepel)
+        public RepelForceData(Point3d Target, double Force, int Threshold)
         {
             this.Target = Target;
             this.Force = (-1) * Force;
             this.Threshold = Threshold;
-            this.LinearRepel = LinearRepel;
-            this.MaxForce = Force / (Threshold * Threshold);
+            this.MaxForce = (-1) * Force / (Threshold * Threshold);
         }
     }
 }
