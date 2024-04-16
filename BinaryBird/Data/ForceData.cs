@@ -2,18 +2,37 @@
 
 namespace BinaryBird.Data
 {
-    public struct ForceData
+    public struct AttractForceData : IForce
     {
-        public List<Point3d> Target { get; set; }
-        public List<double> Threshold { get; set; }
-        public double f_attract { get; set; }
-        public double fMax_attract { get; set; }
-        public double f_repel { get; set; }
-        public double fMax_repel { get; set; }
-        public ForceData(List<Point3d> Target, List<double> Threshold, double f_attract = 0.1, double fMax_attract = 10, double f_repel=0.1, double fMax_repel = 10)
+        public Point3d Target { get; set; }
+        public double Force { get; set; }
+        public int Threshold { get; set; }
+        public bool LinearRepel { get; set; }
+        private double MaxForce;
+        public AttractForceData(Point3d Target, double Force, int Threshold, bool LinearRepel)
         {
-
+            this. Target = Target;
+            this. Force = Force;
+            this. Threshold = Threshold;
+            this. LinearRepel = LinearRepel;
+            this. MaxForce = Force / (Threshold * Threshold);
         }
+    }
 
+    public struct RepelForceData : IForce
+    {
+        public Point3d Target { get; set; }
+        public double Force { get; set; }
+        public int Threshold { get; set; }
+        public bool LinearRepel { get; set; }
+        private double MaxForce;
+        public RepelForceData(Point3d Target, double Force, int Threshold, bool LinearRepel)
+        {
+            this.Target = Target;
+            this.Force = (-1) * Force;
+            this.Threshold = Threshold;
+            this.LinearRepel = LinearRepel;
+            this.MaxForce = Force / (Threshold * Threshold);
+        }
     }
 }
