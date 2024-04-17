@@ -53,7 +53,7 @@ namespace BinaryBird.Behavior
             if (!DA.GetData(2, ref f_align)) { return; }
             #endregion
 
-            FlockData FB = new FlockData(f_seperate, f_cohesion, f_align);
+            BoidData FB = new BoidData(f_seperate, f_cohesion, f_align);
 
             DA.SetData(0, FB);
         }
