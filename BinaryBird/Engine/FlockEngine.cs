@@ -4,6 +4,10 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 
+using BinaryBird.Data;
+using BinaryBird.Behavior;
+using BinaryBird.Boid;
+
 namespace BinaryBird.Engine
 {
     public class FlockEngine : GH_Component
@@ -30,6 +34,7 @@ namespace BinaryBird.Engine
             pManager.AddPointParameter("Birds", "B", "Bird Seeking Freedom", GH_ParamAccess.list);
             pManager.AddGenericParameter("Force", "F", "Birds are seeking freedom but captured by unknown", GH_ParamAccess.item);
             pManager.AddGenericParameter("Behavior", "BH", "How the birds will fly?", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Delta", "dt", "Time Step", GH_ParamAccess.item);
             pManager.AddBooleanParameter("reset", "R", "You don`t like the move they make?", GH_ParamAccess.item);
         }
 
@@ -41,6 +46,8 @@ namespace BinaryBird.Engine
             pManager.AddPointParameter("Trace", "T", "The history of flock", GH_ParamAccess.tree);
         }
 
+
+
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -48,6 +55,24 @@ namespace BinaryBird.Engine
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            #region ///Param set
+            List<Point3d> pt_bird = new List<Point3d>();
+            List<IForce> Forces = new List<IForce>();
+            BoidData Behavior = new BoidData();
+            double dt = new double();
+            bool reset = new bool();
+
+            if(!DA.GetDataList(0, pt_bird)) { return; }
+            if(!DA.GetDataList(1, Forces)) { return; }
+            if(!DA.GetData(2, ref Behavior)) { return; }
+            if(!DA.GetData(3, ref dt)) { return; }
+            if(!DA.GetData(4, ref reset)) { return; }
+            #endregion
+
+            for(int a=0; a<pt_bird.Count; a++)
+            {
+
+            }
         }
 
         /// <summary>
