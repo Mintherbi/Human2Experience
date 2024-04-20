@@ -19,11 +19,17 @@ namespace BinaryBird.Boid
         private List<IForce> Force;
         private double delta;
 
-        public Bird(Point3d Location, Vector3d Velocity, List<IBoid> Rule, BoidData BoidData, List<IForce> Force, double delta)
+        public Bird(Point3d Location, Vector3d Velocity, BoidData BoidData, List<IForce> Force, double delta)
         {
             this.Location = Location;
             this.Velocity = Velocity;
-            this.Rule = Rule;
+
+            IBoid alignRule = new Align();
+            IBoid cohesionRule = new Cohesion();
+            IBoid separationRule = new Seperation();
+            List<IBoid> rules = new List<IBoid> { alignRule, cohesionRule, separationRule };
+            this.Rule = rules;
+
             this.BoidData = BoidData;
             this.Force = Force;
             this.delta = delta;

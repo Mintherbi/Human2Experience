@@ -1,5 +1,6 @@
 using Grasshopper;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,9 @@ namespace BinaryBird.Engine
         }
 
 
-
+        List<Bird> Boid;
+        int delta;
+        DataTree<Point3d> Trace;
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -68,14 +71,35 @@ namespace BinaryBird.Engine
             if(!DA.GetData(3, ref dt)) { return; }
             if(!DA.GetData(4, ref reset)) { return; }
             #endregion
-            
+
+            #region ///reset parameter
             if (!reset)
             {
+                Trace = new DataTree<Point3d>();
+                Boid = new List<Bird>();
+
+                delta = 0;
                 for (int a = 0; a < pt_bird.Count; a++)
                 {
+                    GH_Path path = new GH_Path(a);
+                    List<Point3d> subtree = new List<Point3d>();
+                    subtree.Add(pt_bird[a]);
 
+                    Trace.AddRange(subtree, path);
+
+                    Boid.Add(new Bird(pt_bird[a], new Vector3d(0, 0, 1), Behavior, Forces, dt));
                 }
             }
+            #endregion
+
+            for (int b = 0; b < Boid.Count; b++)
+            {
+                Boid[b].Update(Boid);
+                Trace.Add(Boid[b].Location, new GH_Path(b));
+            }
+
+            DA.SetDataTree(0, Trace);
+
         }
 
         /// <summary>
