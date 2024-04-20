@@ -18,6 +18,8 @@ namespace BinaryBird.Boid
         private BoidData BoidData;
         private List<IForce> Force;
         private double delta;
+        private int max_speed=5;
+        private int min_speed = 1;
 
         public Bird(Point3d Location, Vector3d Velocity, BoidData BoidData, List<IForce> Force, double delta)
         {
@@ -37,19 +39,52 @@ namespace BinaryBird.Boid
 
         public void Update(List<Bird> Boid)
         {
-            Vector3d totalForce = new Vector3d(0, 0, 0);
+            Vector3d Sum = new Vector3d(0, 0, 0);
 
             // 각 규칙에 따른 힘 계산
             foreach (var rule in Rule)
             {
                 Vector3d force = rule.CalcForce(this, Boid, BoidData);
-                totalForce += force;
+                Sum += force;
             }
 
             // 속도 업데이트
-            this.Velocity += totalForce * this.delta;
+            this.Velocity += Sum * this.delta;
 
             // 위치 업데이트
+            
+        }
+        public void ForceUpdate(List<IForce> Forces)
+        {
+            Vector3d Sum = new Vector3d(0, 0, 0);
+
+            for(int a = 0; a < Force.Count; a++)
+            {
+                double dist = Force[a].Target.DistanceTo(this.Location);
+                if (dist > Forces[a].Threshold)
+                {
+                    Sum += (Forces[a].Force / dist) * (Forces[a].Target - this.Location);
+                }
+            }
+
+            this.Velocity += Sum * this.delta;
+        }
+        public void CheckSpeed()
+        {
+            if (this.Velocity.Length > this.max_speed)
+            {
+                this.Velocity.Unitize();
+                this.Velocity = this.Velocity * this.max_speed;
+            }
+
+            if(this.Velocity.Length < this.min_speed)
+            {
+                this.Velocity.Unitize();
+                this.Velocity = this.Velocity * this.min_speed;
+            }
+        }
+        public void Move()
+        {
             this.Location += this.Velocity * this.delta;
         }
     }

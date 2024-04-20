@@ -4,17 +4,18 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 
 using BinaryBird.Data;
+using Grasshopper.Kernel.Types;
 
 namespace BinaryBird.Behavior
 {
-    public class Force : GH_Component
+    public class MergeForce : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public Force()
-          : base("Force", "F",
-              "Set Force Strength and Threshold Distance of Force",
+        public MergeForce()
+          : base("MergeForce", "MF",
+              "Input 3 Force to Merge",
               "BinaryNature", "BinaryBird")
         {
         }
@@ -24,10 +25,9 @@ namespace BinaryBird.Behavior
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Target", "T", "Center of Force", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Strength", "S", "Strength of Force", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("Threshold", "Th", "Impact Diameter of Force", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("Direction", "D", "True : Attract | False : Repel", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Force1", "F1", "First Force", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Force2", "F2", "Second Force", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Force3", "F3", "Third Force", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace BinaryBird.Behavior
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("TargetProperty", "TP", "Target Property", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Merged Force", "MF", "Merged Force", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -45,28 +45,22 @@ namespace BinaryBird.Behavior
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             #region ///Set Param
-            Point3d Target = new Point3d();
-            double Strength = new double();
-            int Threshold = new int();
-            bool Direction = new bool();
+            GH_ObjectWrapper Force1=null;
+            GH_ObjectWrapper Force2 = null;
+            GH_ObjectWrapper Force3 = null;
 
-            if (!DA.GetData(0, ref Target)) { return; }
-            if (!DA.GetData(1, ref Strength)) { return; }
-            if (!DA.GetData(2, ref Threshold)) { return; }
-            if (!DA.GetData(3, ref Direction)) { return; }
+            if (!DA.GetData(0, ref Force1)) { return; }
+            if (!DA.GetData(0, ref Force2)) { return; }
+            if (!DA.GetData(0, ref Force3)) { return; }
             #endregion
 
-            IForce TargetProperty;
+            List<IForce> Forces = new List<IForce>();
 
-            if (Direction)
-            { 
-                TargetProperty = new AttractForceData(Target, Strength, Threshold);                            
-            }
-            else 
-            { 
-                TargetProperty = new RepelForceData(Target, Strength, Threshold);
-            }
-            DA.SetData(0, TargetProperty);
+            Forces.Add(Force1.Value as IForce);
+            Forces.Add(Force2.Value as IForce);
+            Forces.Add(Force3.Value as IForce);
+
+            DA.SetDataList(0, Forces);
         }
 
         /// <summary>
@@ -89,7 +83,7 @@ namespace BinaryBird.Behavior
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("D7121D1F-7974-47E4-B5C3-90136B599C66"); }
+            get { return new Guid("C7D69656-3997-4986-90EA-0CC7CB54783C"); }
         }
     }
 }

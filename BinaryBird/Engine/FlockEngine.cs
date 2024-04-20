@@ -21,8 +21,8 @@ namespace BinaryBird.Engine
         /// new tabs/panels will automatically be created.
         /// </summary>
         public FlockEngine()
-          : base("BinaryBird", "BB",
-            "Description",
+          : base("FlockEngine", "FE",
+            "Let's Fly!",
             "BinaryNature", "BinaryBird")
         {
         }
@@ -33,7 +33,7 @@ namespace BinaryBird.Engine
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddPointParameter("Birds", "B", "Bird Seeking Freedom", GH_ParamAccess.list);
-            pManager.AddGenericParameter("Force", "F", "Birds are seeking freedom but captured by unknown", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Force", "F", "Birds are seeking freedom but captured by unknown", GH_ParamAccess.list);
             pManager.AddGenericParameter("Behavior", "BH", "How the birds will fly?", GH_ParamAccess.item);
             pManager.AddNumberParameter("Delta", "dt", "Time Step", GH_ParamAccess.item);
             pManager.AddBooleanParameter("reset", "R", "You don`t like the move they make?", GH_ParamAccess.item);
@@ -45,6 +45,7 @@ namespace BinaryBird.Engine
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddPointParameter("Trace", "T", "The history of flock", GH_ParamAccess.tree);
+            pManager.AddIntegerParameter("delta", "dt", "Time Pass", GH_ParamAccess.item);
         }
 
 
@@ -95,10 +96,16 @@ namespace BinaryBird.Engine
             for (int b = 0; b < Boid.Count; b++)
             {
                 Boid[b].Update(Boid);
+                Boid[b].ForceUpdate(Forces);
+                Boid[b].CheckSpeed();
+                Boid[b].Move();
                 Trace.Add(Boid[b].Location, new GH_Path(b));
             }
 
+            delta++;
+
             DA.SetDataTree(0, Trace);
+            DA.SetData(1, delta);
 
         }
 
