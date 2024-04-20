@@ -68,10 +68,13 @@ namespace BinaryBird.Engine
             if(!DA.GetData(3, ref dt)) { return; }
             if(!DA.GetData(4, ref reset)) { return; }
             #endregion
-
-            for(int a=0; a<pt_bird.Count; a++)
+            
+            if (!reset)
             {
+                for (int a = 0; a < pt_bird.Count; a++)
+                {
 
+                }
             }
         }
 
