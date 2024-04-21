@@ -45,7 +45,7 @@ namespace BinaryBird.Behavior
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             #region ///Set Param
-            GH_ObjectWrapper Force1=null;
+            GH_ObjectWrapper Force1 = null;
             GH_ObjectWrapper Force2 = null;
             GH_ObjectWrapper Force3 = null;
 
