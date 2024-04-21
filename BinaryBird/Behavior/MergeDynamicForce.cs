@@ -4,18 +4,17 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 
 using BinaryBird.Data;
-using Grasshopper.Kernel.Types;
 
 namespace BinaryBird.Behavior
 {
-    public class MergeForce : GH_Component
+    public class MergeDynamicForce : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public MergeForce()
-          : base("MergeForce", "MF",
-              "Input 3 Force to Merge",
+        public MergeDynamicForce()
+          : base("MergeDynamicForce", "MDF",
+              "Merge force Dynamically",
               "BinaryNature", "BinaryBird")
         {
         }
@@ -25,9 +24,8 @@ namespace BinaryBird.Behavior
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Force1", "F1", "First Force", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Force2", "F2", "Second Force", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Force3", "F3", "Third Force", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Force", "F", "Dynamic List of Force", GH_ParamAccess.list);
+            pManager[0].DataMapping = GH_DataMapping.Flatten;
         }
 
         /// <summary>
@@ -35,7 +33,7 @@ namespace BinaryBird.Behavior
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Merged Force", "MF", "Merged Force", GH_ParamAccess.list);
+            pManager.AddGenericParameter("MergedForce", "MF", "Merged Force List", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -44,21 +42,14 @@ namespace BinaryBird.Behavior
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            #region ///Set Param
-            GH_ObjectWrapper Force1 = null;
-            GH_ObjectWrapper Force2 = null;
-            GH_ObjectWrapper Force3 = null;
-
-            if (!DA.GetData(0, ref Force1)) { return; }
-            if (!DA.GetData(0, ref Force2)) { return; }
-            if (!DA.GetData(0, ref Force3)) { return; }
-            #endregion
-
             List<IForce> Forces = new List<IForce>();
+            List<IForce> temp = new List<IForce>();
 
-            Forces.Add(Force1.Value as IForce);
-            Forces.Add(Force2.Value as IForce);
-            Forces.Add(Force3.Value as IForce);
+            while(DA.GetDataList(0,temp))
+            {
+                Forces.AddRange(temp);
+                temp.Clear();
+            }
 
             DA.SetDataList(0, Forces);
         }
@@ -66,7 +57,7 @@ namespace BinaryBird.Behavior
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        /*
+/*       
         protected override System.Drawing.Bitmap Icon
         {
             get
@@ -76,14 +67,13 @@ namespace BinaryBird.Behavior
                 return null;
             }
         }
-        */
-
+*/
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("C7D69656-3997-4986-90EA-0CC7CB54783C"); }
+            get { return new Guid("13E0AD03-BFE2-44AF-9353-B44317830631"); }
         }
     }
 }
