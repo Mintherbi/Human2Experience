@@ -11,7 +11,7 @@ using BinaryBird.Boid;
 
 namespace BinaryBird.Engine
 {
-    public class FlockEngine : GH_Component
+    public class WalkEngine : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,9 +20,9 @@ namespace BinaryBird.Engine
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public FlockEngine()
-          : base("FlockEngine", "FE",
-            "Let's Fly!",
+        public WalkEngine()
+          : base("WalkEngine", "WE",
+            "Let's Walk!",
             "BinaryNature", "BinaryBird")
         {
         }
@@ -32,7 +32,7 @@ namespace BinaryBird.Engine
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Birds", "B", "Bird Seeking Freedom", GH_ParamAccess.list);
+            pManager.AddPointParameter("Pedestrian", "P", "Person Want to walk for target point", GH_ParamAccess.list);
             pManager.AddGenericParameter("Force", "F", "Birds are seeking freedom but captured by unknown", GH_ParamAccess.list);
             pManager.AddGenericParameter("Behavior", "BH", "How the birds will fly?", GH_ParamAccess.item);
             pManager.AddNumberParameter("Delta", "dt", "Time Step", GH_ParamAccess.item);
@@ -104,10 +104,9 @@ namespace BinaryBird.Engine
 
             delta++;
 
-            #region ///set output parameter
             DA.SetDataTree(0, Trace);
             DA.SetData(1, delta);
-            #endregion
+
         }
 
         /// <summary>

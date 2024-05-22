@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
@@ -7,14 +8,14 @@ using BinaryBird.Data;
 
 namespace BinaryBird.Behavior
 {
-    public class FlockBehavior : GH_Component
+    public class WalkBehavior : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public FlockBehavior()
-          : base("Flock Behavior", "FB",
-              "Set how the birds will fly",
+        public WalkBehavior()
+          : base("WalkBehavior", "WB",
+              "Set how people walk",
               "BinaryNature", "BinaryBird")
         {
         }
@@ -22,19 +23,22 @@ namespace BinaryBird.Behavior
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddNumberParameter("Seperate Coefficient", "SC", "I don't want to fly along with others", GH_ParamAccess.item);
             pManager.AddNumberParameter("Cohesion Coefficient", "CC", "Lets go together!", GH_ParamAccess.item);
             pManager.AddNumberParameter("Alignment Coefficient", "AC", "Are we heading to same way?", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Energy", "E", "Start Energy of Pedestrian", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Max Slope", "MS", "Maximum Slope that Humane can handle", GH_ParamAccess.item);
+            pManager.AddPointParameter("Goal", " G", "Goal of Pedetrian", GH_ParamAccess.item);
         }
 
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Flock Behavior", "FB", "How the Birds will fly", GH_ParamAccess.item);
+            pManager.AddGenericParameter("WalkBehavior", "WB", "How people will walk", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -47,21 +51,26 @@ namespace BinaryBird.Behavior
             double f_seperate = new double();
             double f_cohesion = new double();
             double f_align = new double();
+            int energy = new int();
+            double max_slope = new double();
+            Point3d goal = new Point3d();
 
             if (!DA.GetData(0, ref f_seperate)) { return; }
             if (!DA.GetData(1, ref f_cohesion)) { return; }
             if (!DA.GetData(2, ref f_align)) { return; }
+            if (!DA.GetData(3, ref energy)) { return; }
+            if (!DA.GetData(4, ref max_slope)) { return; }
+            if (!DA.GetData(5, ref goal)) { return; }
             #endregion
 
-            FlockData FB = new FlockData(f_seperate, f_cohesion, f_align);
+            WalkData WalkBehavior = new WalkData(f_seperate, f_cohesion, f_align, energy, max_slope, goal);
 
-            DA.SetData(0, FB);
+            DA.SetData(0, WalkBehavior);
+
         }
-
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        /*
+            /// <summary>
+            /// Provides an Icon for the component.
+            /// </summary>
         protected override System.Drawing.Bitmap Icon
         {
             get
@@ -71,14 +80,13 @@ namespace BinaryBird.Behavior
                 return null;
             }
         }
-        */
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("5EF8CB3C-5C2D-4622-B4B7-7DD39CFB8E40"); }
+            get { return new Guid("57044F16-7C6A-460A-AE0E-AA64AA6FD56A"); }
         }
     }
 }

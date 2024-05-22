@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 using Rhino.Geometry;
 using BinaryBird.Data;
+using BinaryBird.Boid;
 
-namespace BinaryBird.Boid
+namespace BinaryBird.Field.ForceProperty
 {
-    public class Seperation : IBoid
+    public class Seperation : IBoidProperty
     {
-        public Vector3d CalcForce(Bird Bird, List<Bird> Boid, BoidData BoidData)
+        public Vector3d CalcForce(Bird Bird, List<Bird> Boid, FlockData BoidData)
         {
             Vector3d Seperation = new Vector3d();
             List<Bird> Local = _getlocal(Bird, Boid, 4);
@@ -42,10 +43,10 @@ namespace BinaryBird.Boid
         private Vector3d _getaway(Bird Bird, List<Bird> Local)
         {
             Vector3d Sum = new Vector3d(0, 0, 0);
-            for (int a=0; a<Local.Count(); a++)
+            for (int a = 0; a < Local.Count(); a++)
             {
                 double dist = _dist(Bird, Local[a]);
-                Sum += (Bird.Location - Local[a].Location) * (1/(dist*dist));
+                Sum += (Bird.Location - Local[a].Location) * (1 / (dist * dist));
             }
 
             return Sum;

@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 using Rhino.Geometry;
 using BinaryBird.Data;
+using BinaryBird.Boid;
 
-namespace BinaryBird.Boid
+namespace BinaryBird.Field.ForceProperty
 {
-    public class Cohesion : IBoid
+    public class Cohesion : IBoidProperty
     {
-        public Vector3d CalcForce(Bird Bird, List<Bird> Boid, BoidData BoidData)
+        public Vector3d CalcForce(Bird Bird, List<Bird> Boid, FlockData BoidData)
         {
             Vector3d Cohesion = new Vector3d();
 
@@ -19,7 +20,7 @@ namespace BinaryBird.Boid
 
             for (int a = 0; a < Boid.Count(); a++) { Sum += Boid[a].Location; }
 
-            Cohesion = ((Sum / Boid.Count()) - Bird.Location) * BoidData.f_cohesion;
+            Cohesion = (Sum / Boid.Count() - Bird.Location) * BoidData.f_cohesion;
 
             return Cohesion;
         }

@@ -63,7 +63,7 @@ namespace BinaryBird.Engine
             #region ///Param set
             List<Point3d> pt_bird = new List<Point3d>();
             List<IForce> Forces = new List<IForce>();
-            BoidData Behavior = new BoidData();
+            FlockData Behavior = new FlockData();
             double Resolution = new double();
             int Length = new int();
             bool reset = new bool();
