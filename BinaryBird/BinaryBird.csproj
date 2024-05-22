@@ -13,5 +13,9 @@
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.4" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Evaluation\" />
+  </ItemGroup>
 
 </Project>

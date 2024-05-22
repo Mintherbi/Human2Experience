@@ -50,7 +50,7 @@ namespace BinaryBird.Engine
         }
 
 
-        List<Human> Boid;
+        List<IBoid> Boid;
         int delta;
         DataTree<Point3d> Trace;
         /// <summary>
@@ -78,7 +78,7 @@ namespace BinaryBird.Engine
             if (!reset)
             {
                 Trace = new DataTree<Point3d>();
-                Boid = new List<Human>();
+                Boid = new List<IBoid>();
 
                 delta = 0;
                 for (int a = 0; a < pt_human.Count; a++)
