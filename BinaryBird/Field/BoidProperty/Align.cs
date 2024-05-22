@@ -12,15 +12,15 @@ namespace BinaryBird.Field.ForceProperty
 {
     public class Align : IBoidProperty
     {
-        public Vector3d CalcForce(Bird Bird, List<Bird> Boid, FlockData BoidData)
+        public Vector3d CalcForce(IBoid self, List<IBoid> boid, IBoidData BoidData)
         {
             Vector3d Align = new Vector3d();
 
             Vector3d Sum = new Vector3d(0, 0, 0);
 
-            for (int a = 0; a < Boid.Count(); a++) { Sum += Boid[a].Velocity; }
+            for (int a = 0; a < boid.Count(); a++) { Sum += boid[a].Velocity; }
 
-            Align = BoidData.f_align * Sum / Boid.Count();
+            Align = BoidData.f_align * Sum / boid.Count();
 
             return Align;
         }

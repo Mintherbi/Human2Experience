@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rhino.Geometry;
-using BinaryBird.Data;
-using BinaryBird.Boid;
 
 namespace BinaryBird.Field
 {
-    public interface IBoidProperty
+    public interface IForce
     {
-        Vector3d CalcForce(Bird Bird, List<Bird> Boid, FlockData BoidData);
+        Point3d Target { get; set; }
+        double Force { get; set; }
+        int Threshold { get; set; }
+
+
     }
 }

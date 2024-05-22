@@ -2,7 +2,7 @@
 
 namespace BinaryBird.Data
 {
-    public struct WalkData
+    public struct WalkData : IBoidData
     {
         public double f_seperate { get; set; }
         public double f_cohesion { get; set; }

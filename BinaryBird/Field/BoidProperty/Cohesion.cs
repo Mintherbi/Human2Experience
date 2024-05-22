@@ -12,15 +12,15 @@ namespace BinaryBird.Field.ForceProperty
 {
     public class Cohesion : IBoidProperty
     {
-        public Vector3d CalcForce(Bird Bird, List<Bird> Boid, FlockData BoidData)
+        public Vector3d CalcForce(IBoid self, List<IBoid> boid, IBoidData BoidData)
         {
             Vector3d Cohesion = new Vector3d();
 
             Point3d Sum = new Point3d(0, 0, 0);
 
-            for (int a = 0; a < Boid.Count(); a++) { Sum += Boid[a].Location; }
+            for (int a = 0; a < boid.Count(); a++) { Sum += boid[a].Location; }
 
-            Cohesion = (Sum / Boid.Count() - Bird.Location) * BoidData.f_cohesion;
+            Cohesion = (Sum / boid.Count() - self.Location) * BoidData.f_cohesion;
 
             return Cohesion;
         }

@@ -11,10 +11,10 @@ using BinaryBird.Field;
 
 namespace BinaryBird.Boid
 {
-    public class Bird
+    public class Bird : IBoid
     {
-        public Point3d Location;
-        public Vector3d Velocity;
+        public Point3d Location { get; set; }
+        public Vector3d Velocity { get; set; }
         private List<IBoidProperty> Rule;
         private FlockData FlockBehavior;
         private List<IForce> Force;
@@ -38,7 +38,7 @@ namespace BinaryBird.Boid
             this.delta = delta;
         }
 
-        public void Update(List<Bird> Boid)
+        public void Update(List<IBoid> Boid)
         {
             Vector3d Sum = new Vector3d(0, 0, 0);
 

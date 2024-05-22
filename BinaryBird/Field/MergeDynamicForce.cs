@@ -4,8 +4,6 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-
-using BinaryBird.Data;
 using BinaryBird.Utilites;
 using Rhino.Render;
 

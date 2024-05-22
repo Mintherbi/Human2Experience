@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using BinaryBird.Data;
 using BinaryBird.Behavior;
 using BinaryBird.Boid;
+using BinaryBird.Field;
 
 namespace BinaryBird.Engine
 {
@@ -49,7 +50,7 @@ namespace BinaryBird.Engine
         }
 
 
-        List<Bird> Boid;
+        List<Human> Boid;
         int delta;
         DataTree<Point3d> Trace;
         /// <summary>
@@ -60,13 +61,13 @@ namespace BinaryBird.Engine
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             #region ///Param set
-            List<Point3d> pt_bird = new List<Point3d>();
+            List<Point3d> pt_human = new List<Point3d>();
             List<IForce> Forces = new List<IForce>();
-            FlockData Behavior = new FlockData();
+            WalkData Behavior = new WalkData();
             double dt = new double();
             bool reset = new bool();
 
-            if (!DA.GetDataList(0, pt_bird)) { return; }
+            if (!DA.GetDataList(0, pt_human)) { return; }
             if (!DA.GetDataList(1, Forces)) { return; }
             if (!DA.GetData(2, ref Behavior)) { return; }
             if (!DA.GetData(3, ref dt)) { return; }
@@ -77,18 +78,18 @@ namespace BinaryBird.Engine
             if (!reset)
             {
                 Trace = new DataTree<Point3d>();
-                Boid = new List<Bird>();
+                Boid = new List<Human>();
 
                 delta = 0;
-                for (int a = 0; a < pt_bird.Count; a++)
+                for (int a = 0; a < pt_human.Count; a++)
                 {
                     GH_Path path = new GH_Path(a);
                     List<Point3d> subtree = new List<Point3d>();
-                    subtree.Add(pt_bird[a]);
+                    subtree.Add(pt_human[a]);
 
                     Trace.AddRange(subtree, path);
 
-                    Boid.Add(new Bird(pt_bird[a], new Vector3d(0, 0, 1), Behavior, Forces, dt));
+                    Boid.Add(new Human(pt_human[a], new Vector3d(0, 0, 1), Behavior, Forces, dt));
                 }
             }
             #endregion

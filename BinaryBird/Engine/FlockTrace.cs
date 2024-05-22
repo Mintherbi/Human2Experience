@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using BinaryBird.Data;
 using BinaryBird.Behavior;
 using BinaryBird.Boid;
+using BinaryBird.Field;
 
 namespace BinaryBird.Engine
 {
