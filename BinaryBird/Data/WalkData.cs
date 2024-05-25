@@ -11,7 +11,7 @@ namespace BinaryBird.Data
         public double max_slope { get; set; }
         public Point3d goal { get; set; }
 
-        public WalkData(double f_seperate = 0.1, double f_cohesion = 0.1, double f_align = 0.1, int energy = 100, double max_slope = 0.05, Point3d goal)
+        public WalkData(double f_seperate = 0.1, double f_cohesion = 0.1, double f_align = 0.1, int energy = 100, double max_slope = 0.05, Point3d goal = new Point3d(0,0,0))
         {
             this.f_seperate = f_seperate;
             this.f_cohesion = f_cohesion;

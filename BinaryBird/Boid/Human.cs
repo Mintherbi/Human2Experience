@@ -84,6 +84,14 @@ namespace BinaryBird.Boid
                 this.Velocity = this.Velocity * this.min_speed;
             }
         }
+        public void CheckSlope()
+        {
+
+        }
+        public void CheckEnergy()
+        {
+
+        }
         public void Move()
         {
             this.Location += this.Velocity * this.delta;

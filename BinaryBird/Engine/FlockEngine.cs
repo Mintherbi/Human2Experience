@@ -4,6 +4,7 @@ using Grasshopper.Kernel.Data;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using BinaryBird.Data;
 using BinaryBird.Behavior;
@@ -96,7 +97,7 @@ namespace BinaryBird.Engine
 
             for (int b = 0; b < Boid.Count; b++)
             {
-                Boid[b].Update(Boid);
+                Boid[b].Update(Boid.Cast<IBoid>().ToList());
                 Boid[b].ForceUpdate(Forces);
                 Boid[b].CheckSpeed();
                 Boid[b].Move();
@@ -117,7 +118,6 @@ namespace BinaryBird.Engine
         /// You can add image files to your project resources and access them like this:
         /// return Resources.IconForThisComponent;
         /// </summary>
-         /*
         protected override System.Drawing.Bitmap Icon
         {
             get
@@ -127,7 +127,6 @@ namespace BinaryBird.Engine
                 return null;
             }
         }
-        */
 
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
