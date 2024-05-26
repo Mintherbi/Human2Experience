@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Rhino.Geometry;
 using BinaryBird.Data;
 using BinaryBird.Boid;
+using BinaryBird.Field.BoidProperty;
 
 namespace BinaryBird.Field.ForceProperty
 {

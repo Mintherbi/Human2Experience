@@ -9,7 +9,7 @@ using System.Linq;
 using BinaryBird.Data;
 using BinaryBird.Behavior;
 using BinaryBird.Boid;
-using BinaryBird.Field;
+using BinaryBird.Field.Force;
 
 namespace BinaryBird.Engine
 {

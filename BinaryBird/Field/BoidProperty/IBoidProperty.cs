@@ -7,7 +7,7 @@ using Rhino.Geometry;
 using BinaryBird.Data;
 using BinaryBird.Boid;
 
-namespace BinaryBird.Field
+namespace BinaryBird.Field.BoidProperty
 {
     public interface IBoidProperty
     {

@@ -1,4 +1,4 @@
-﻿using BinaryBird.Field;
+﻿using BinaryBird.Field.Force;
 using Rhino.Geometry;
 
 namespace BinaryBird.Data

@@ -5,7 +5,7 @@ using Rhino.Geometry;
 
 using BinaryBird.Data;
 
-namespace BinaryBird.Field
+namespace BinaryBird.Field.Force
 {
     public class Force : GH_Component
     {

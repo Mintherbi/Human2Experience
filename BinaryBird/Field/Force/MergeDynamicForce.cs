@@ -7,7 +7,7 @@ using Rhino.Geometry;
 using BinaryBird.Utilites;
 using Rhino.Render;
 
-namespace BinaryBird.Field
+namespace BinaryBird.Field.Force
 {
     public class MergeDynamicForce : GH_Component, IGH_VariableParameterComponent
     {

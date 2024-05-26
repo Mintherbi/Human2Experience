@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using BinaryBird.Field;
+using BinaryBird.Field.Force;
 
 namespace BinaryBird.Boid
 {
