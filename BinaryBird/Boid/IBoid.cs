@@ -13,7 +13,7 @@ namespace BinaryBird.Boid
     {
         Point3d Location { get; set; }
         Vector3d Velocity { get; set; }
-        void Update(List<IBoid> Boid);
+        void BehaviorUpdate(List<IBoid> Boid);
         void ForceUpdate(List<IForce> Forces);
         void CheckSpeed();
         void Move();

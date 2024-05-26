@@ -30,7 +30,6 @@ namespace BinaryBird.Behavior
             pManager.AddNumberParameter("Alignment Coefficient", "AC", "Are we heading to same way?", GH_ParamAccess.item);
             pManager.AddIntegerParameter("Energy", "E", "Start Energy of Pedestrian", GH_ParamAccess.item);
             pManager.AddNumberParameter("Max Slope", "MS", "Maximum Slope that Humane can handle", GH_ParamAccess.item);
-            pManager.AddPointParameter("Goal", " G", "Goal of Pedetrian", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -53,17 +52,15 @@ namespace BinaryBird.Behavior
             double f_align = new double();
             int energy = new int();
             double max_slope = new double();
-            Point3d goal = new Point3d();
 
             if (!DA.GetData(0, ref f_seperate)) { return; }
             if (!DA.GetData(1, ref f_cohesion)) { return; }
             if (!DA.GetData(2, ref f_align)) { return; }
             if (!DA.GetData(3, ref energy)) { return; }
             if (!DA.GetData(4, ref max_slope)) { return; }
-            if (!DA.GetData(5, ref goal)) { return; }
             #endregion
 
-            WalkData WalkBehavior = new WalkData(f_seperate, f_cohesion, f_align, energy, max_slope, goal);
+            WalkData WalkBehavior = new WalkData(f_seperate, f_cohesion, f_align, energy, max_slope);
 
             DA.SetData(0, WalkBehavior);
 

@@ -4,6 +4,7 @@ using Grasshopper.Kernel.Data;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using BinaryBird.Data;
 using BinaryBird.Behavior;
@@ -50,7 +51,7 @@ namespace BinaryBird.Engine
         }
 
 
-        List<IBoid> Boid;
+        List<Human> Boid;
         int delta;
         DataTree<Point3d> Trace;
         /// <summary>
@@ -78,7 +79,7 @@ namespace BinaryBird.Engine
             if (!reset)
             {
                 Trace = new DataTree<Point3d>();
-                Boid = new List<IBoid>();
+                Boid = new List<Human>();
 
                 delta = 0;
                 for (int a = 0; a < pt_human.Count; a++)
@@ -96,9 +97,11 @@ namespace BinaryBird.Engine
 
             for (int b = 0; b < Boid.Count; b++)
             {
-                Boid[b].Update(Boid);
+                Boid[b].BehaviorUpdate(Boid.Cast<IBoid>().ToList());
                 Boid[b].ForceUpdate(Forces);
                 Boid[b].CheckSpeed();
+                Boid[b].CheckSlope();
+                Boid[b].CheckExertion();
                 Boid[b].Move();
                 Trace.Add(Boid[b].Location, new GH_Path(b));
             }

@@ -38,7 +38,7 @@ namespace BinaryBird.Boid
             this.delta = delta;
         }
 
-        public void Update(List<IBoid> Boid)
+        public void BehaviorUpdate(List<IBoid> Boid)
         {
             Vector3d Sum = new Vector3d(0, 0, 0);
 
