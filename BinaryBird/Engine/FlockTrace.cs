@@ -141,7 +141,7 @@ namespace BinaryBird.Engine
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("FD8B8B03-5DBA-41ED-99D0-9F73CE6037EB"); }
+            get { return new Guid("22CF7537-72F8-4AC9-87DB-F49E94303001"); }
         }
     }
 }

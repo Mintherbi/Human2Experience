@@ -20,11 +20,9 @@ namespace BinaryBird.Boid
         private WalkData WalkBehavior { get; set; }
         private List<IForce> Force { get; set; }
         private double delta { get; set; }
-        private double max_slope { get; set; }
         private double duration;
-        private int max_speed = 5;
-        private int min_speed = 1;
-        private double rpe;
+        public double rpe;
+        public double averageRPE;
 
         /// <summary>
         /// Constructor
@@ -96,16 +94,16 @@ namespace BinaryBird.Boid
         /// </summary>
         public void CheckSpeed()
         {
-            if (this.Velocity.Length > this.max_speed)
+            if (this.Velocity.Length > this.WalkBehavior.max_speed)
             {
                 this.Velocity.Unitize();
-                this.Velocity = this.Velocity * this.max_speed;
+                this.Velocity = this.Velocity * this.WalkBehavior.max_speed;
             }
 
-            if (this.Velocity.Length < this.min_speed)
+            if (this.Velocity.Length < this.WalkBehavior.min_speed)
             {
                 this.Velocity.Unitize();
-                this.Velocity = this.Velocity * this.min_speed;
+                this.Velocity = this.Velocity * this.WalkBehavior.min_speed;
             }
         }
         /// <summary>
@@ -113,20 +111,20 @@ namespace BinaryBird.Boid
         /// </summary>
         public void CheckSlope()
         {
-            if(this._CalcSlope() > this.max_slope)
+            if(this._CalcSlope() > this.WalkBehavior.max_slope)
             {
                 this.Velocity = new Vector3d(this.Velocity.X, this.Velocity.Y,
-                    Math.Sqrt(Math.Pow(this.Velocity.X, 2) + Math.Pow(this.Velocity.Y, 2)) * this.max_slope);
+                    Math.Sqrt(Math.Pow(this.Velocity.X, 2) + Math.Pow(this.Velocity.Y, 2)) * this.WalkBehavior.max_slope);
             }
         }
         public void CheckExertion()
         {
             _UpdateRPE();
-
         }
         public void Move()
         {
             this.Location += this.Velocity * this.delta;
+            this.duration += this.delta;
         }
         #endregion
 

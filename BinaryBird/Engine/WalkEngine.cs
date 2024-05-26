@@ -134,6 +134,9 @@ namespace BinaryBird.Engine
         /// It is vital this Guid doesn't change otherwise old ghx files 
         /// that use the old ID will partially fail during loading.
         /// </summary>
-        public override Guid ComponentGuid => new Guid("c6a8cccc-4fa2-4127-98f9-ecfd8a9d242f");
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("BBD4234C-5954-47D0-A3E5-A5C34EEE9E51"); }
+        }
     }
 }
