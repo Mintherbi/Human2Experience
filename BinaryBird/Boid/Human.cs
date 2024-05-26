@@ -123,6 +123,14 @@ namespace BinaryBird.Boid
             _UpdateRPE();
 
         }
+        public void CheckSlope()
+        {
+
+        }
+        public void CheckEnergy()
+        {
+
+        }
         public void Move()
         {
             this.Location += this.Velocity * this.delta;

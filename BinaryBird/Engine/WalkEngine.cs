@@ -119,7 +119,6 @@ namespace BinaryBird.Engine
         /// You can add image files to your project resources and access them like this:
         /// return Resources.IconForThisComponent;
         /// </summary>
-         /*
         protected override System.Drawing.Bitmap Icon
         {
             get
@@ -129,7 +128,6 @@ namespace BinaryBird.Engine
                 return null;
             }
         }
-        */
 
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
