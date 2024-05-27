@@ -17,7 +17,7 @@ namespace BinaryBird.Boid
         public Point3d Location { get; set; }
         public Vector3d Velocity { get; set; }
         private List<IBoidProperty> Rule { get; set; }
-        private WalkData WalkBehavior { get; set; }
+        public WalkData WalkBehavior { get; set; }
         private List<IForce> Force { get; set; }
         private double delta { get; set; }
         private double duration;
@@ -116,6 +116,18 @@ namespace BinaryBird.Boid
                 this.Velocity = new Vector3d(this.Velocity.X, this.Velocity.Y,
                     Math.Sqrt(Math.Pow(this.Velocity.X, 2) + Math.Pow(this.Velocity.Y, 2)) * this.WalkBehavior.max_slope);
             }
+            else if (this._CalcSlope() < 0)
+            {
+                this.Velocity = new Vector3d(this.Velocity.X, this.Velocity.Y, 0);
+            }
+        }
+        public void ConstantSlope()
+        {
+            if (!(this._CalcSlope() == this.WalkBehavior.max_slope))
+            {
+                this.Velocity = new Vector3d(this.Velocity.X, this.Velocity.Y,
+                    Math.Sqrt(Math.Pow(this.Velocity.X, 2) + Math.Pow(this.Velocity.Y, 2)) * this.WalkBehavior.max_slope);
+            }
         }
         public void CheckExertion()
         {
@@ -131,7 +143,7 @@ namespace BinaryBird.Boid
         #region ///Calculate Fatigue 
         private double _CalculateEnergyConsumption()
         {
-            double G = this._CalcSlope();
+            double G = this._CalcSlope() * 100;
             double V = this.Velocity.Length;
 
             double energyConsumption = (155.4 * Math.Pow(G, 5)

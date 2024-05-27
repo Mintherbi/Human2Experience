@@ -39,7 +39,7 @@ namespace BinaryBird.Engine
             pManager.AddGenericParameter("Behavior", "BH", "How the humans will walk", GH_ParamAccess.item);
             pManager.AddNumberParameter("Delta", "R", "Time Step", GH_ParamAccess.item);
             pManager.AddNumberParameter("Goal", "G", "Desired height", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("reset", "R", "Reset?", GH_ParamAccess.item);
+            pManager.AddIntegerParameter("Max Calculation Step", "MxC", "Max Calculation Step", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -49,6 +49,7 @@ namespace BinaryBird.Engine
         {
             pManager.AddPointParameter("Trace", "T", "The history of flock", GH_ParamAccess.tree);
             pManager.AddNumberParameter("Exertion", "E", "The history of Exertion", GH_ParamAccess.tree);
+            pManager.AddBooleanParameter("Reach2Goal", "R2G", "Reached to the Goal", GH_ParamAccess.list);
         }
 
 
@@ -56,6 +57,7 @@ namespace BinaryBird.Engine
         int delta;
         DataTree<Point3d> Trace;
         DataTree<double> Exertion;
+        List<IForce> PreviousValue;
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -69,22 +71,26 @@ namespace BinaryBird.Engine
             WalkData Behavior = new WalkData();
             double Delta = new double();
             double goal = new double();
-            bool reset = new bool();
+            int max_calc = new int();
 
             if(!DA.GetDataList(0, pt_human)) { return; }
             if(!DA.GetDataList(1, Forces)) { return; }
             if(!DA.GetData(2, ref Behavior)) { return; }
             if(!DA.GetData(3, ref Delta)) { return; }
             if(!DA.GetData(4, ref goal)) { return; }
-            if(!DA.GetData(5, ref reset)) { return; }
+            if(!DA.GetData(5, ref max_calc)) { return; }
             #endregion
 
+            
+
             #region ///reset parameter
-            if (!reset)
+            if (!(Forces == PreviousValue))
             {
                 Trace = new DataTree<Point3d>();
                 Exertion = new DataTree<double>();
                 Boid = new List<Human>();
+                PreviousValue = new List<IForce>();
+                PreviousValue = Forces;
 
                 delta = 0;
                 for (int a = 0; a < pt_human.Count; a++)
@@ -98,29 +104,40 @@ namespace BinaryBird.Engine
                     Boid.Add(new Human(pt_human[a], new Vector3d(0, 0, 1), Behavior, Forces, Delta));
                 }
             }
-
             #endregion
-            bool finish = false;
-            while (!finish)
+
+            List<bool> R2G = new List<bool>(Enumerable.Repeat(false, Boid.Count));
+
+            while (max_calc > 0)
             {
-                bool checkheight = false;
                 for (int b = 0; b < Boid.Count; b++)
                 {
-                    Boid[b].BehaviorUpdate(Boid.Cast<IBoid>().ToList());
-                    Boid[b].ForceUpdate(Forces);
-                    Boid[b].CheckSpeed();
-                    Boid[b].CheckSlope();
-                    Boid[b].CheckExertion();
-                    Boid[b].Move();
-                    Trace.Add(Boid[b].Location, new GH_Path(b));
-                    Exertion.Add(Boid[b].rpe, new GH_Path(b));
+                    if (!R2G[b]) 
+                    { 
+                        Boid[b].BehaviorUpdate(Boid.Cast<IBoid>().ToList());
+                        Boid[b].ForceUpdate(Forces);
+                        Boid[b].CheckSpeed();
+                        //Boid[b].CheckSlope();
+                        Boid[b].ConstantSlope();
+                        Boid[b].CheckExertion();
+                        Boid[b].Move();
+                        Trace.Add(Boid[b].Location, new GH_Path(b));
+                        Exertion.Add(Boid[b].rpe, new GH_Path(b));
 
-                    checkheight = checkheight && (Boid[b].Location.Z > goal);
+                        if (Boid[b].Location.Z > goal) { R2G[b] = true; }
+                    }
                 }
-                finish = checkheight;
+
+                if(Boid.All(a => a.Location.Z > goal))
+                {
+                    break;
+                }
+                max_calc--;
             }
+
             DA.SetDataTree(0, Trace);
             DA.SetDataTree(1, Exertion);
+            DA.SetDataList(2, R2G);
         }
 
         /// <summary>
