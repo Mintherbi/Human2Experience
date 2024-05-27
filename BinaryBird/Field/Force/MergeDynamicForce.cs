@@ -4,12 +4,10 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-
-using BinaryBird.Data;
 using BinaryBird.Utilites;
 using Rhino.Render;
 
-namespace BinaryBird.Behavior
+namespace BinaryBird.Field.Force
 {
     public class MergeDynamicForce : GH_Component, IGH_VariableParameterComponent
     {
@@ -33,7 +31,7 @@ namespace BinaryBird.Behavior
         }
         public override void CreateAttributes()
         {
-            base.m_attributes = new CustomAttributes(this, 0);
+            m_attributes = new CustomAttributes(this, 0);
         }
 
         /// <summary>
@@ -62,7 +60,7 @@ namespace BinaryBird.Behavior
 
             Component = this;
             int inputCount = Component.Params.Input.Count;
-            int hitCounter = 0; 
+            int hitCounter = 0;
 
             for (int i = 0; i < inputCount; i++)
             {
@@ -125,9 +123,9 @@ namespace BinaryBird.Behavior
         }
         private void ParamSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
-            if (((e.ParameterSide == 0) && (e.ParameterIndex == (Component.Params.Input.Count - 1))) && (e.Parameter.SourceCount > 0))
+            if (e.ParameterSide == 0 && e.ParameterIndex == Component.Params.Input.Count - 1 && e.Parameter.SourceCount > 0)
             {
-                IGH_Param param = this.CreateParameter(0, Component.Params.Input.Count);
+                IGH_Param param = CreateParameter(0, Component.Params.Input.Count);
                 Component.Params.RegisterInputParam(param);
                 Component.Params.OnParametersChanged();
             }

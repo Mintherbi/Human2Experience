@@ -1,15 +1,20 @@
-﻿using System;
+﻿using Rhino.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Rhino.Geometry;
-using BinaryBird.Data;
+using BinaryBird.Field.Force;
 
 namespace BinaryBird.Boid
 {
     public interface IBoid
     {
-        Vector3d CalcForce(Bird Bird, List<Bird> Boid, BoidData BoidData);
+        Point3d Location { get; set; }
+        Vector3d Velocity { get; set; }
+        void BehaviorUpdate(List<IBoid> Boid);
+        void ForceUpdate(List<IForce> Forces);
+        void CheckSpeed();
+        void Move();
     }
 }

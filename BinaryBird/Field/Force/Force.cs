@@ -5,7 +5,7 @@ using Rhino.Geometry;
 
 using BinaryBird.Data;
 
-namespace BinaryBird.Behavior
+namespace BinaryBird.Field.Force
 {
     public class Force : GH_Component
     {
@@ -59,11 +59,11 @@ namespace BinaryBird.Behavior
             IForce TargetProperty;
 
             if (Direction)
-            { 
-                TargetProperty = new AttractForceData(Target, Strength, Threshold);                            
+            {
+                TargetProperty = new AttractForceData(Target, Strength, Threshold);
             }
-            else 
-            { 
+            else
+            {
                 TargetProperty = new RepelForceData(Target, Strength, Threshold);
             }
             DA.SetData(0, TargetProperty);

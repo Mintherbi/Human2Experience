@@ -13,7 +13,7 @@ using BinaryBird.Field.Force;
 
 namespace BinaryBird.Engine
 {
-    public class FlockEngine : GH_Component
+    public class WalkEngine : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -22,9 +22,9 @@ namespace BinaryBird.Engine
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public FlockEngine()
-          : base("FlockEngine", "FE",
-            "Let's Fly!",
+        public WalkEngine()
+          : base("WalkEngine", "WE",
+            "Let's Walk!",
             "BinaryNature", "BinaryBird")
         {
         }
@@ -34,7 +34,7 @@ namespace BinaryBird.Engine
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("Birds", "B", "Bird Seeking Freedom", GH_ParamAccess.list);
+            pManager.AddPointParameter("Pedestrian", "P", "Person Want to walk for target point", GH_ParamAccess.list);
             pManager.AddGenericParameter("Force", "F", "Birds are seeking freedom but captured by unknown", GH_ParamAccess.list);
             pManager.AddGenericParameter("Behavior", "BH", "How the birds will fly?", GH_ParamAccess.item);
             pManager.AddNumberParameter("Delta", "dt", "Time Step", GH_ParamAccess.item);
@@ -51,7 +51,7 @@ namespace BinaryBird.Engine
         }
 
 
-        List<Bird> Boid;
+        List<Human> Boid;
         int delta;
         DataTree<Point3d> Trace;
         /// <summary>
@@ -62,13 +62,13 @@ namespace BinaryBird.Engine
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             #region ///Param set
-            List<Point3d> pt_bird = new List<Point3d>();
+            List<Point3d> pt_human = new List<Point3d>();
             List<IForce> Forces = new List<IForce>();
-            FlockData Behavior = new FlockData();
+            WalkData Behavior = new WalkData();
             double dt = new double();
             bool reset = new bool();
 
-            if (!DA.GetDataList(0, pt_bird)) { return; }
+            if (!DA.GetDataList(0, pt_human)) { return; }
             if (!DA.GetDataList(1, Forces)) { return; }
             if (!DA.GetData(2, ref Behavior)) { return; }
             if (!DA.GetData(3, ref dt)) { return; }
@@ -79,18 +79,18 @@ namespace BinaryBird.Engine
             if (!reset)
             {
                 Trace = new DataTree<Point3d>();
-                Boid = new List<Bird>();
+                Boid = new List<Human>();
 
                 delta = 0;
-                for (int a = 0; a < pt_bird.Count; a++)
+                for (int a = 0; a < pt_human.Count; a++)
                 {
                     GH_Path path = new GH_Path(a);
                     List<Point3d> subtree = new List<Point3d>();
-                    subtree.Add(pt_bird[a]);
+                    subtree.Add(pt_human[a]);
 
                     Trace.AddRange(subtree, path);
 
-                    Boid.Add(new Bird(pt_bird[a], new Vector3d(0, 0, 1), Behavior, Forces, dt));
+                    Boid.Add(new Human(pt_human[a], new Vector3d(0, 0, 1), Behavior, Forces, dt));
                 }
             }
             #endregion
@@ -100,16 +100,17 @@ namespace BinaryBird.Engine
                 Boid[b].BehaviorUpdate(Boid.Cast<IBoid>().ToList());
                 Boid[b].ForceUpdate(Forces);
                 Boid[b].CheckSpeed();
+                Boid[b].CheckSlope();
+                Boid[b].CheckExertion();
                 Boid[b].Move();
                 Trace.Add(Boid[b].Location, new GH_Path(b));
             }
 
             delta++;
 
-            #region ///set output parameter
             DA.SetDataTree(0, Trace);
             DA.SetData(1, delta);
-            #endregion
+
         }
 
         /// <summary>
@@ -118,7 +119,6 @@ namespace BinaryBird.Engine
         /// You can add image files to your project resources and access them like this:
         /// return Resources.IconForThisComponent;
         /// </summary>
-         /*
         protected override System.Drawing.Bitmap Icon
         {
             get
@@ -128,13 +128,15 @@ namespace BinaryBird.Engine
                 return null;
             }
         }
-        */
 
         /// <summary>
         /// Each component must have a unique Guid to identify it. 
         /// It is vital this Guid doesn't change otherwise old ghx files 
         /// that use the old ID will partially fail during loading.
         /// </summary>
-        public override Guid ComponentGuid => new Guid("c6a8cccc-4fa2-4127-98f9-ecfd8a9d242f");
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("BBD4234C-5954-47D0-A3E5-A5C34EEE9E51"); }
+        }
     }
 }

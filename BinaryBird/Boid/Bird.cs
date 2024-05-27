@@ -6,45 +6,47 @@ using System.Threading.Tasks;
 
 using Rhino.Geometry;
 using BinaryBird.Data;
-using System.Security.Cryptography;
+using BinaryBird.Field.ForceProperty;
+using BinaryBird.Field.BoidProperty;
+using BinaryBird.Field.Force;
 
 namespace BinaryBird.Boid
 {
-    public class Bird
+    public class Bird : IBoid
     {
-        public Point3d Location;
-        public Vector3d Velocity;
-        private List<IBoid> Rule;
-        private BoidData BoidData;
+        public Point3d Location { get; set; }
+        public Vector3d Velocity { get; set; }
+        private List<IBoidProperty> Rule;
+        private FlockData FlockBehavior;
         private List<IForce> Force;
         private double delta;
-        private int max_speed=5;
+        private int max_speed = 5;
         private int min_speed = 1;
 
-        public Bird(Point3d Location, Vector3d Velocity, BoidData BoidData, List<IForce> Force, double delta)
+        public Bird(Point3d Location, Vector3d Velocity, FlockData FlockBehavior, List<IForce> Force, double delta)
         {
             this.Location = Location;
             this.Velocity = Velocity;
 
-            IBoid alignRule = new Align();
-            IBoid cohesionRule = new Cohesion();
-            IBoid separationRule = new Seperation();
-            List<IBoid> rules = new List<IBoid> { alignRule, cohesionRule, separationRule };
+            IBoidProperty alignRule = new Align();
+            IBoidProperty cohesionRule = new Cohesion();
+            IBoidProperty separationRule = new Seperation();
+            List<IBoidProperty> rules = new List<IBoidProperty> { alignRule, cohesionRule, separationRule };
             this.Rule = rules;
 
-            this.BoidData = BoidData;
+            this.FlockBehavior = FlockBehavior;
             this.Force = Force;
             this.delta = delta;
         }
 
-        public void Update(List<Bird> Boid)
+        public void BehaviorUpdate(List<IBoid> Boid)
         {
             Vector3d Sum = new Vector3d(0, 0, 0);
 
             // 각 규칙에 따른 힘 계산
             foreach (var rule in Rule)
             {
-                Vector3d force = rule.CalcForce(this, Boid, BoidData);
+                Vector3d force = rule.CalcForce(this, Boid, FlockBehavior);
                 Sum += force;
             }
 

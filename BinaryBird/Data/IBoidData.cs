@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Rhino.Geometry;
 
 namespace BinaryBird.Data
 {
-    public interface IForce
+    public interface IBoidData
     {
-        Point3d Target { get; set; }
-        double Force { get; set; }
-        int Threshold { get; set; }
-
-
+        double f_seperate { get; set; }
+        double f_cohesion { get; set; }
+        double f_align { get; set; }
     }
 }
