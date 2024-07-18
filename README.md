@@ -67,7 +67,7 @@ The depth of vision or visibility range at each point along the uphill path is r
 #### Overall Experience Calculation
 The overall experience (X) felt by a person while walking uphill is defined by linearly weighting the factors of energy, heart rate, fatigue, and vision depth:
 
-$$X = δHR_target + εE + ζVO2_max + ηV$$
+$$X = δ HR_{target} + ε E + ζ VO2_{max} + η V$$
 
 where,
 <div align="left">
