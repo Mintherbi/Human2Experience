@@ -25,13 +25,23 @@ $$E = MET * Weight (kg) * Time (hours)$$
 ### Target Heart Rate Calculation
 The target heart rate (HR_target) is determined using the Karvonen formula:
 
-$$HR_{target} = HR_rest + Exercise Intensity * (HR_{max} - HR_{rest})$$
+$$HR_{target} = HR_{rest}+ Exercise Intensity * (HR_{max} - HR_{rest})$$
 
 where,
+<div align="left">
+  
+$$
+HR_{rest} : \text{resting heart rate}
+$$
 
-$$HR_{rest} : resting heart rate \newline
-HR_{max} : maximum heart rate (HR_{max} = 220 - Age) \newline
-Exercise Intensity \subset [0,1]$$
+$$
+HR_{max} : \text{maximum heart rate} \, (HR_{max} = 220 - \text{Age})
+$$
+
+$$
+\text{Exercise Intensity} \subset [0,1]
+$$
+</div>
 
 #### Fatigue Index Calculation
 The fatigue index (F) incorporates energy expenditure and heart rate:
@@ -39,14 +49,16 @@ The fatigue index (F) incorporates energy expenditure and heart rate:
 $$F = αE + βHR + γM$$
 
 where,
+<div align="left">
+  
+$$E$$ : Energy Expenditure
 
-$$E$$ is the energy expenditure,
+$$HR$$ : Heart Rate
 
-$$HR$$ is the heart rate,
+$$M$$ : Fatigue Index
 
-$$M$$ is the muscle fatigue index,
-
-$$α, β, γ$$ are weights.
+$$α, β, γ$$ : weights
+</div>
 
 
 #### Vision Depth Heat Map
@@ -58,16 +70,18 @@ The overall experience (X) felt by a person while walking uphill is defined by l
 $$X = δHR_target + εE + ζVO2_max + ηV$$
 
 where,
+<div align="left">
+  
+$$HR_{target}$$ : Target Heart Rate
 
-$$HR_{target}$$ is the target heart rate
+$$E$$ : Energy Expenditure
 
-$$E$$ is the energy expenditure,
+$$VO2_{max}$$ : Maximum Oxygen Uptake
 
-$$VO2_{max}$$ is the maximum oxygen uptake,
+$$V$$ : Vision Depth
 
-$$V$$ is the vision depth,
-$$δ, ε, ζ, η$$ are weights.
-
+$$δ, ε, ζ, η$$ : weights
+</div>
 
 #### Visualization
 The graph presents pathways colored to reflect fatigue levels at various points, with a heat map overlay indicating the depth of vision. This dual representation helps understand how physical effort and visual perception impact the overall human experience.
