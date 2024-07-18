@@ -41,11 +41,14 @@ $$HR_{target} = HR_{rest}+ Exercise Intensity * (HR_{max} - HR_{rest})$$
 where,
 <div align="left">
 
-$$HR_{rest} : \text{resting heart rate}$$
+$$HR_{rest}$$ : resting heart rate
 
-$$HR_{max} : \text{Maximum heart rate} (\text{where, } HR_{max} = 220 - \text{Age})$$
+$$HR_{max}$$ : Maximum heart rate 
+
+$$(\text{where, } HR_{max} = 220 - \text{Age})$$
 
 $$\text{Exercise Intensity} \subset [0,1]$$
+
 </div>
 
 #### Fatigue Index Calculation
