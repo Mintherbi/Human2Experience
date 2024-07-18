@@ -16,7 +16,7 @@ In this project, rather than focusing solely on creating traditionally 'good' sp
 ## 3. Experience
 ### Human Experience Modeling on an Uphill Path
 This project focuses on modeling the human experience while walking uphill by considering various factors such as energy expenditure, heart rate, fatigue, and the depth of vision. These factors are linearly weighted to define the overall experience perceived by individuals.
-
+![Computational Approach to Architectural Experience](IMG/)
 #### Energy Expenditure Calculation
 The energy expenditure (E) while walking uphill is calculated using the formula:
 
