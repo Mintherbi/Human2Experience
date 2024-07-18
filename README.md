@@ -14,7 +14,69 @@ In this project, rather than focusing solely on creating traditionally 'good' sp
 ## 2. Pedestrian Simulation
 
 ## 3. Experience
+### Human Experience Modeling on an Uphill Path
+This project focuses on modeling the human experience while walking uphill by considering various factors such as energy expenditure, heart rate, fatigue, and the depth of vision. These factors are linearly weighted to define the overall experience perceived by individuals.
 
+#### Energy Expenditure Calculation
+The energy expenditure (E) while walking uphill is calculated using the formula:
+
+$$E = MET * Weight (kg) * Time (hours)$$
+
+### Target Heart Rate Calculation
+The target heart rate (HR_target) is determined using the Karvonen formula:
+
+$$HR_{target} = HR_rest + Exercise Intensity * (HR_{max} - HR_{rest})$$
+
+where,
+
+$$HR_{rest} : resting heart rate \newline
+HR_{max} : maximum heart rate (HR_{max} = 220 - Age) \newline
+Exercise Intensity \subset [0,1]$$
+
+#### Fatigue Index Calculation
+The fatigue index (F) incorporates energy expenditure and heart rate:
+
+$$F = αE + βHR + γM$$
+
+where,
+
+$$E$$ is the energy expenditure,
+
+$$HR$$ is the heart rate,
+
+$$M$$ is the muscle fatigue index,
+
+$$α, β, γ$$ are weights.
+
+
+#### Vision Depth Heat Map
+The depth of vision or visibility range at each point along the uphill path is represented as a heat map. This provides insight into how the surroundings impact a person's experience and movement.
+
+#### Overall Experience Calculation
+The overall experience (X) felt by a person while walking uphill is defined by linearly weighting the factors of energy, heart rate, fatigue, and vision depth:
+
+$$X = δHR_target + εE + ζVO2_max + ηV$$
+
+where,
+
+$$HR_{target}$$ is the target heart rate
+
+$$E$$ is the energy expenditure,
+
+$$VO2_{max}$$ is the maximum oxygen uptake,
+
+$$V$$ is the vision depth,
+$$δ, ε, ζ, η$$ are weights.
+
+
+#### Visualization
+The graph presents pathways colored to reflect fatigue levels at various points, with a heat map overlay indicating the depth of vision. This dual representation helps understand how physical effort and visual perception impact the overall human experience.
+
+Applications
+Site Design Optimization: Improve pathways, place amenities strategically, and manage crowd flow effectively.
+Safety and Efficiency: Enhance safety by identifying bottlenecks and high-traffic areas.
+Personalized Experiences: Develop tailored services for different demographic groups based on movement patterns and preferences.
+This model serves as a valuable tool for urban planners, event organizers, and site managers, providing actionable insights to improve the overall experience for visitors.
 ## 4. Optimize
 
 ## 5. Program Structure
