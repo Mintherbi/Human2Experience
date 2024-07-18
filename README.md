@@ -13,10 +13,15 @@ In this project, rather than focusing solely on creating traditionally 'good' sp
 
 ## 2. Pedestrian Simulation
 
+![Boid Simulation](IMG/BoidSimulation.png)
+![Parametric Study of Various Path](IMG/ParametricStudy.png)
+
 ## 3. Experience
 ### Human Experience Modeling on an Uphill Path
 This project focuses on modeling the human experience while walking uphill by considering various factors such as energy expenditure, heart rate, fatigue, and the depth of vision. These factors are linearly weighted to define the overall experience perceived by individuals.
-![Computational Approach to Architectural Experience](IMG/)
+
+![Computational Approach to Architectural Experience](IMG/ComputationalExperience.png)
+
 #### Energy Expenditure Calculation
 The energy expenditure (E) while walking uphill is calculated using the formula:
 
@@ -86,5 +91,7 @@ Safety and Efficiency: Enhance safety by identifying bottlenecks and high-traffi
 Personalized Experiences: Develop tailored services for different demographic groups based on movement patterns and preferences.
 This model serves as a valuable tool for urban planners, event organizers, and site managers, providing actionable insights to improve the overall experience for visitors.
 ## 4. Optimize
+
+![Optimization of Path for Most Various Experience](IMG/Optimization.png)
 
 ## 5. Program Structure
