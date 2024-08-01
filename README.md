@@ -14,7 +14,7 @@ In this project, rather than focusing solely on creating traditionally 'good' sp
 ## 2. Pedestrian Simulation
 
 <div align="center">
-  <img src="IMG/BoidSimulation.png" alt="Boid Simulation" width="50%"/>
+  <img src="IMG/BoidSimulation.png" alt="Boid Simulation" width="100%"/>
   
   <img src="IMG/ParametricStudy.png" alt="Parametric Study of Various Path" width="100%"/>
 </div>
