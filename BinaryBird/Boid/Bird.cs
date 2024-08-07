@@ -20,8 +20,6 @@ namespace BinaryBird.Boid
         private FlockData FlockBehavior;
         private List<IForce> Force;
         private double delta;
-        private int max_speed = 5;
-        private int min_speed = 1;
 
         public Bird(Point3d Location, Vector3d Velocity, FlockData FlockBehavior, List<IForce> Force, double delta)
         {
@@ -73,16 +71,14 @@ namespace BinaryBird.Boid
         }
         public void CheckSpeed()
         {
-            if (this.Velocity.Length > this.max_speed)
+            if (this.Velocity.Length > this.FlockBehavior.MaxSpeed)
             {
-                this.Velocity.Unitize();
-                this.Velocity = this.Velocity * this.max_speed;
+                this.Velocity = (this.Velocity/this.Velocity.Length) * this.FlockBehavior.MaxSpeed;
             }
 
-            if(this.Velocity.Length < this.min_speed)
+            if(this.Velocity.Length < this.FlockBehavior.MinSpeed)
             {
-                this.Velocity.Unitize();
-                this.Velocity = this.Velocity * this.min_speed;
+                this.Velocity = (this.Velocity / this.Velocity.Length) * this.FlockBehavior.MinSpeed;
             }
         }
         public void Move()

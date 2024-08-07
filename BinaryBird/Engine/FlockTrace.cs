@@ -10,6 +10,7 @@ using BinaryBird.Data;
 using BinaryBird.Behavior;
 using BinaryBird.Boid;
 using BinaryBird.Field.Force;
+using Rhino.Render;
 
 namespace BinaryBird.Engine
 {
@@ -49,12 +50,14 @@ namespace BinaryBird.Engine
         {
             pManager.AddPointParameter("Trace", "T", "The history of flock", GH_ParamAccess.tree);
             pManager.AddIntegerParameter("delta", "dt", "Time Pass", GH_ParamAccess.item);
+            pManager.AddVectorParameter("Velocity", "V", "Velocity of each time step", GH_ParamAccess.list); 
         }
 
 
         List<Bird> Boid;
         int delta;
         DataTree<Point3d> Trace;
+        DataTree<Vector3d> Velocity; 
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -82,18 +85,18 @@ namespace BinaryBird.Engine
             if (!reset)
             {
                 Trace = new DataTree<Point3d>();
+                Velocity = new DataTree<Vector3d>();
                 Boid = new List<Bird>();
 
                 delta = 0;
                 for (int a = 0; a < pt_bird.Count; a++)
                 {
-                    GH_Path path = new GH_Path(a);
-                    List<Point3d> subtree = new List<Point3d>();
-                    subtree.Add(pt_bird[a]);
-
-                    Trace.AddRange(subtree, path);
-
                     Boid.Add(new Bird(pt_bird[a], new Vector3d(0, 0, 1), Behavior, Forces, Resolution));
+
+                    GH_Path path = new GH_Path(a);
+
+                    Trace.Add(Boid[a].Location, path);
+                    Velocity.Add(Boid[a].Velocity, path);
                 }
             }
 
@@ -106,6 +109,7 @@ namespace BinaryBird.Engine
                     Boid[b].BehaviorUpdate(Boid.Cast<IBoid>().ToList());
                     Boid[b].ForceUpdate(Forces);
                     Boid[b].CheckSpeed();
+                    Velocity.Add(Boid[b].Velocity, new GH_Path(b));
                     Boid[b].Move();
                     Trace.Add(Boid[b].Location, new GH_Path(b));
                 }
@@ -115,6 +119,7 @@ namespace BinaryBird.Engine
 
             DA.SetDataTree(0, Trace);
             DA.SetData(1, delta);
+            DA.SetDataTree(2, Velocity);
 
         }
 

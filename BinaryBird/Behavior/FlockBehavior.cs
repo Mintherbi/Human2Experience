@@ -27,6 +27,8 @@ namespace BinaryBird.Behavior
             pManager.AddNumberParameter("Seperate Coefficient", "SC", "I don't want to fly along with others", GH_ParamAccess.item);
             pManager.AddNumberParameter("Cohesion Coefficient", "CC", "Lets go together!", GH_ParamAccess.item);
             pManager.AddNumberParameter("Alignment Coefficient", "AC", "Are we heading to same way?", GH_ParamAccess.item);
+            pManager.AddNumberParameter("MaxSpeed", "MxS", "Maximum Speed of Bird", GH_ParamAccess.item);
+            pManager.AddNumberParameter("MinimunSpeed", "MnS", "Minimum Speed of Bird", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -47,13 +49,17 @@ namespace BinaryBird.Behavior
             double f_seperate = new double();
             double f_cohesion = new double();
             double f_align = new double();
+            double MaxSpeed = new double();
+            double MinSpeed = new double();
 
             if (!DA.GetData(0, ref f_seperate)) { return; }
             if (!DA.GetData(1, ref f_cohesion)) { return; }
             if (!DA.GetData(2, ref f_align)) { return; }
+            if (!DA.GetData(3, ref MaxSpeed)) { return; }
+            if (!DA.GetData(4, ref MinSpeed)) { return; }
             #endregion
 
-            FlockData FB = new FlockData(f_seperate, f_cohesion, f_align);
+            FlockData FB = new FlockData(f_seperate, f_cohesion, f_align, MaxSpeed, MinSpeed);
 
             DA.SetData(0, FB);
         }

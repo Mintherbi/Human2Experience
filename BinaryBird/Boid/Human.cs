@@ -96,14 +96,12 @@ namespace BinaryBird.Boid
         {
             if (this.Velocity.Length > this.WalkBehavior.max_speed)
             {
-                this.Velocity.Unitize();
-                this.Velocity = this.Velocity * this.WalkBehavior.max_speed;
+                this.Velocity = (this.Velocity / this.Velocity.Length) * this.WalkBehavior.max_speed;
             }
 
             if (this.Velocity.Length < this.WalkBehavior.min_speed)
             {
-                this.Velocity.Unitize();
-                this.Velocity = this.Velocity * this.WalkBehavior.min_speed;
+                this.Velocity = (this.Velocity / this.Velocity.Length) * this.WalkBehavior.min_speed;
             }
         }
         /// <summary>
